@@ -10,13 +10,18 @@ public class wappy_bird : MonoBehaviour
 	public float tiltSmooth = 5;
 	public Vector3 startPos;
 
-	Rigidbody2D rigidbody;
-	Quaternion forwardRotation;
-	Quaternion downRotation;
+	private new Rigidbody2D rigidbody;
+	private Quaternion forwardRotation;
+	private Quaternion downRotation;
 
+	public delegate void PlayerDelegate();
+	// event will be fired when player died and scored 
+	public static event PlayerDelegate OnPlayerDied;
+	public static event PlayerDelegate OnPlayerScored;
+	
 
 	// Use this for initialization
-	void Start ()
+	private void Start ()
 	{
 		rigidbody = GetComponent<Rigidbody2D> ();
 		downRotation = Quaternion.Euler (0, 0, -75);
@@ -24,9 +29,9 @@ public class wappy_bird : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	private void Update ()
 	{
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetKey(KeyCode.Space)) {
 			transform.rotation = forwardRotation;
 			rigidbody.velocity = Vector2.zero;
 			rigidbody.AddForce (Vector2.up * tapForce, ForceMode2D.Force);
@@ -34,18 +39,47 @@ public class wappy_bird : MonoBehaviour
 		transform.rotation = Quaternion.Lerp (transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
 	}
 
-	void OnTriggerEnter2D (Collider2D col)
+	private void OnEnable()
+	{
+		GameManager.onGameStarted += onGameStarted;
+		GameManager.onGameOverConfirmed += onGameOverConfirmed;
+	}
+
+	private void OnDisable()
+	{
+		GameManager.onGameStarted -= onGameStarted;
+		GameManager.onGameOverConfirmed -= onGameOverConfirmed;
+	}
+	
+	// ReSharper disable once MemberCanBeMadeStatic.Local
+	private void onGameStarted()
+	{
+		rigidbody.velocity = Vector2.zero;
+		rigidbody.simulated = true;
+	}
+
+	// ReSharper disable once MemberCanBeMadeStatic.Local
+	private void onGameOverConfirmed()
+	{
+		transform.localPosition = startPos;
+		transform.rotation = Quaternion.identity;
+	}
+	
+
+	private void OnTriggerEnter2D (Collider2D col)
 	{
 		Debug.Log ("trigger");
-		if (col.gameObject.tag == "DeadZone") {
+		if (col.gameObject.CompareTag("DeadZone")) {
 			Debug.Log ("DeadZone");
 			rigidbody.simulated = false;
-			// register dead event 
+			// register dead event
+			OnPlayerDied();
 			// play sound
 		}
-		if (col.gameObject.tag == "ScoreZone") {
+		if (col.gameObject.CompareTag("ScoreZone")) {
 			Debug.Log ("ScoreZone");
 			// register score event
+			OnPlayerScored(); // event sent to GameManager
 			// play a sound
 		}
 	}
