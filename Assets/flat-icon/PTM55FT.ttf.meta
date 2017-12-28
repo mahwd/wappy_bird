@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f4c1673b7f84d4c7584b877ce07e3da0
+timeCreated: 1514474590
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PT Mono
+  fontNames:
+  - PT Mono
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
