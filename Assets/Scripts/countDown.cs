@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,15 +19,13 @@ public class countDown : MonoBehaviour
 
 	private IEnumerator CountDown()
 	{
-		var count = 3;
+		const int count = 3;
 		for (var i = 0; i < count; i++)
 		{
-			countdown.text = count.ToString();
-			count--;
-			Debug.Log(count);
+			countdown.text = (count-i).ToString();
 			yield return new WaitForSeconds(1);
 		}
-		onCountDownFinished();
+		if (onCountDownFinished != null) onCountDownFinished();
 	}
 	
 }

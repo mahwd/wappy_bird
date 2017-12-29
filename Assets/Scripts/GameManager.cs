@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+// ReSharper disable All
 
-// ReSharper disable once MemberCanBePrivate.Global
 public class GameManager:MonoBehaviour
 {
 	public GameObject startPage;
@@ -11,7 +11,6 @@ public class GameManager:MonoBehaviour
 	public GameObject pausePage;
 	public Text scoreText;
 	public static GameManager Instance;
-
 	
 	public delegate void GameDellegate ();
 	// event for starting and restarting game 
@@ -29,15 +28,11 @@ public class GameManager:MonoBehaviour
 		countDownPage,
 	}
 
-#pragma warning disable 414
-	private int score = 0;
-#pragma warning restore 414
-	private bool gameOver = false;
+	public int score = 0;
+	private bool gameOver = true;
 
-	// ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
 	public bool GameOver{ get { return gameOver; } }
 
-	// ReSharper disable once ArrangeTypeMemberModifiers
 	void Awake ()
 	{
 		Instance = this;
@@ -59,7 +54,7 @@ public class GameManager:MonoBehaviour
 	}
 
 	private void onCountDownFinished () {
-		setPageState(pageState.None);
+		setPageState(pageState.inGamePage);
 		if (onGameStarted != null) onGameStarted ();
 		score = 0;
 		gameOver = false;
@@ -75,7 +70,9 @@ public class GameManager:MonoBehaviour
 	{
 		gameOver = true;
 		var highscore = PlayerPrefs.GetInt("HighScore");
-		if (score > highscore)
+		Debug.Log(score);
+		Debug.Log(highscore);
+		if (score >= highscore)
 		{
 			PlayerPrefs.SetInt("HighScore", score);
 		}
@@ -134,15 +131,12 @@ public class GameManager:MonoBehaviour
 
 	public void ConfirmGameOver ()
 	{
-		Debug.Log("Confirmed");
 		// will be activated when replay button 
-		// ReSharper disable once PossibleNullReferenceException
 		onGameOverConfirmed ();
 		scoreText.text = "0";
 		setPageState (pageState.startPage);
 	}
 
-	// ReSharper disable once UnusedMember.Local
 	public void StartGame ()
 	{
 		// will be activated when start game button hitted
