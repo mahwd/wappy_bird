@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class gameOverScore : MonoBehaviour
 {
-
+	// Text
 	private Text scoreText;
 
 	
