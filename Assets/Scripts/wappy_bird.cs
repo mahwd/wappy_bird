@@ -31,7 +31,7 @@ public class wappy_bird : MonoBehaviour
 	// Update is called once per frame
 	private void Update ()
 	{
-		if (Input.GetKey(KeyCode.Space)) {
+		if (Input.GetKey(KeyCode.Space) || Input.touchCount == 1) {
 			transform.rotation = forwardRotation;
 			rigidbody.velocity = Vector2.zero;
 			rigidbody.AddForce (Vector2.up * tapForce, ForceMode2D.Force);

@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[RequireComponent (typeof(Text))]
 public class countDown : MonoBehaviour
 {
-	private Text countdown;
+	public Text countdown;
 
 	public delegate void CountDownFinish();
 	public static event CountDownFinish onCountDownFinished;
-	private void onEnable ()
+	
+	private void OnEnable ()
 	{
-		countdown = GetComponent<Text> ();
+//		countdown = GetComponent<Text> ();
 		countdown.text = "3";
 		StartCoroutine ("CountDown"); 
 	}
@@ -25,6 +25,7 @@ public class countDown : MonoBehaviour
 		{
 			countdown.text = count.ToString();
 			count--;
+			Debug.Log(count);
 			yield return new WaitForSeconds(1);
 		}
 		onCountDownFinished();

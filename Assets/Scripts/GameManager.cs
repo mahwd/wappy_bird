@@ -41,6 +41,7 @@ public class GameManager:MonoBehaviour
 	void Awake ()
 	{
 		Instance = this;
+		setPageState((pageState.startPage));
 	}
 
 	private void OnEnable()
@@ -146,6 +147,7 @@ public class GameManager:MonoBehaviour
 	{
 		// will be activated when start game button hitted
 		setPageState (pageState.countDownPage);
+		
 	}
 }
 
