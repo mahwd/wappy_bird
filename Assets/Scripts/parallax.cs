@@ -38,7 +38,6 @@ public class parallax : MonoBehaviour {
 	public bool spawnImmediate;
 	public Vector3 spawnImmediatePos;
 	public Vector2 targetAspectRatio;
-
 	private float _targetAspect;
 	private float _spawnTimer;
 

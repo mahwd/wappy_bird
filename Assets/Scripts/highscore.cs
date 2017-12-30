@@ -11,12 +11,12 @@ public class highscore : MonoBehaviour
 	private void Start()
 	{
 		highscoreText = GetComponent<Text>();
-		highscoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
+		highscoreText.text = "HighScore: " + PlayerPrefs.GetInt("HighScore").ToString();
 	}
 
 	private void FixedUpdate()
 	{
 		highscoreText = GetComponent<Text>();
-		highscoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
+		highscoreText.text = "HighScore: " + PlayerPrefs.GetInt("HighScore").ToString();
 	}
 }
