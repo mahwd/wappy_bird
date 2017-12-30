@@ -129,6 +129,8 @@ public class GameManager:MonoBehaviour
 		}
 	}
 
+	
+	// ui actions
 	public void ConfirmGameOver ()
 	{
 		// will be activated when replay button 
@@ -140,8 +142,19 @@ public class GameManager:MonoBehaviour
 	public void StartGame ()
 	{
 		// will be activated when start game button hitted
-		setPageState (pageState.countDownPage);
-		
+		setPageState (pageState.countDownPage);	
+	}
+
+	public void PauseGame()
+	{
+		Time.timeScale = 0;
+		setPageState(pageState.pausePage);
+	}
+	
+	public void ResumeGame()
+	{
+		Time.timeScale = 1;
+		setPageState(pageState.inGamePage);
 	}
 }
 
