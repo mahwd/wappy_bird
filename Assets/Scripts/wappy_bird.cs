@@ -8,6 +8,11 @@ public class wappy_bird : MonoBehaviour
 	public float tiltSmooth = 5;
 	public Vector3 startPos;
 
+	public AudioSource jump;
+	public AudioSource die;
+	public AudioSource coin;
+	
+
 	private new Rigidbody2D rigidbody;
 	private Quaternion forwardRotation;
 	private Quaternion downRotation;
@@ -31,9 +36,10 @@ public class wappy_bird : MonoBehaviour
 	{
 		if (!rigidbody.simulated)
 			return;
-		if (Input.GetKey(KeyCode.Space) || Input.touchCount == 1) {
-			transform.rotation = forwardRotation;
+		if (Input.GetKey(KeyCode.Space) || Input.touchCount == 1 && Input.GetTouch(0).phase != TouchPhase.Stationary) {
+			jump.Play();
 			rigidbody.velocity = Vector2.zero;
+			transform.rotation = forwardRotation;
 			rigidbody.AddForce (Vector2.up * tapForce, ForceMode2D.Force);
 		} 
 		transform.rotation = Quaternion.Lerp (transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
@@ -51,14 +57,12 @@ public class wappy_bird : MonoBehaviour
 		GameManager.onGameOverConfirmed -= onGameOverConfirmed;
 	}
 	
-	// ReSharper disable once MemberCanBeMadeStatic.Local
 	private void onGameStarted()
 	{
 		rigidbody.velocity = Vector2.zero;
 		rigidbody.simulated = true;
 	}
 
-	// ReSharper disable once MemberCanBeMadeStatic.Local
 	private void onGameOverConfirmed()
 	{
 		transform.localPosition = startPos;
@@ -73,10 +77,16 @@ public class wappy_bird : MonoBehaviour
 			// register dead event
 			if (OnPlayerDied != null) OnPlayerDied();
 			// play sound
+			die.Play();
+			
 		}
+		
+		GetComponent<CircleCollider2D>().isTrigger = !col.CompareTag("Top");
+		
 		if (!col.gameObject.CompareTag("ScoreZone")) return;
 		// register score event
 		if (OnPlayerScored != null) OnPlayerScored(); // event sent to GameManager
 		// play a sound
+		coin.Play();
 	}
 }
