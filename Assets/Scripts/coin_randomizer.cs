@@ -17,13 +17,29 @@ public class coin_randomizer : MonoBehaviour
     {
         generatedCoin = Instantiate(coins[_get_random_coin()]) as GameObject;
         coin_randomizer.coinPrefabs.Add(generatedCoin);
-        Debug.Log(coin_randomizer.coinPrefabs.Count);
         generatedCoin.transform.position = transform.position;
     }
 
     private int _get_random_coin()
     {
-        return Random.Range(0, coins.Count);
+        var rand = Random.Range(0, 100);
+        if (rand>95)
+        {
+            return 9;
+        }else if (rand>85)
+        {
+            return 8;
+        }else if (rand>70)
+        {
+            return Random.Range(6, 8);
+        } else if(rand>50)
+        {
+            return Random.Range(4, 6);
+        }
+        else
+        {
+            return Random.Range(0, 4);
+        }
     }
 
     private void OnEnable()

@@ -38,7 +38,7 @@ public class parallax : MonoBehaviour {
 	public bool spawnImmediate;
 	public Vector3 spawnImmediatePos;
 	public Vector2 targetAspectRatio;
-	private float _targetAspect;
+//	private float _targetAspect;
 	private float _spawnTimer;
 
 	private PoolObject[] _poolObjects;
@@ -96,7 +96,7 @@ public class parallax : MonoBehaviour {
 	
 	private void Configure()
 	{
-		_targetAspect = targetAspectRatio.x / targetAspectRatio.y;
+//		_targetAspect = targetAspectRatio.x / targetAspectRatio.y;
 		_poolObjects = new PoolObject[poolSize];
 		for (var i = 0; i < _poolObjects.Length; i++)
 		{

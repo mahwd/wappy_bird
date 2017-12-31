@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// ReSharper disable All
 
 public class parallaxer : MonoBehaviour
 {
@@ -12,7 +13,15 @@ public class parallaxer : MonoBehaviour
     public float shiftSpeed;
     private GameManager _game;
     public Vector2 spawnPos;
+    
+    [System.Serializable]
+    public struct YSpawnRange
+    {
+        public float min;
+        public float max;
+    }
 
+    public YSpawnRange ySpawnRange;
     private void Start()
     {
         _game = GameManager.Instance;
@@ -23,8 +32,9 @@ public class parallaxer : MonoBehaviour
     private void FixedUpdate()
     {
         spawnTimer += Time.smoothDeltaTime;
-        if (!(spawnTimer > spawnRate)) return;
-        _prefabs.Add(Instantiate(prefab, spawnPos, Quaternion.identity));
+        if (_game.GameOver || !(spawnTimer > spawnRate)) return;
+        var pos = new Vector2(spawnPos.x, Random.Range(ySpawnRange.min, ySpawnRange.max));
+        _prefabs.Add(Instantiate(prefab, pos, Quaternion.identity));
         spawnTimer = 0;
     }
 
