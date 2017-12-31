@@ -88,5 +88,7 @@ public class wappy_bird : MonoBehaviour
 		if (OnPlayerScored != null) OnPlayerScored(); // event sent to GameManager
 		// play a sound
 		coin.Play();
+		// destroy coin
+		Destroy(col.gameObject);
 	}
 }

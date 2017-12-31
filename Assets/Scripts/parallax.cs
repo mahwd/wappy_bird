@@ -146,7 +146,6 @@ public class parallax : MonoBehaviour {
 	private void CheckDisposeObject(PoolObject poolObject)
 	{
 		if (!(poolObject.transform.position.x < -defaultSpawnPos.x)) return;
-		Debug.Log("disposed");
 		poolObject.Dispose();
 		poolObject.transform.position = Vector3.one * 1000;
 	}	

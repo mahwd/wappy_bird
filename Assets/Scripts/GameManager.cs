@@ -70,8 +70,6 @@ public class GameManager:MonoBehaviour
 	{
 		gameOver = true;
 		var highscore = PlayerPrefs.GetInt("HighScore");
-		Debug.Log(score);
-		Debug.Log(highscore);
 		if (score >= highscore)
 		{
 			PlayerPrefs.SetInt("HighScore", score);

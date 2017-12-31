@@ -51,13 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\coin_randomizer.cs" />
     <Compile Include="Assets\Scripts\countDown.cs" />
     <Compile Include="Assets\Scripts\gameOverScore.cs" />
     <Compile Include="Assets\Scripts\highscore.cs" />
     <Compile Include="Assets\Scripts\parallax.cs" />
+    <Compile Include="Assets\Scripts\parallaxer.cs" />
+    <Compile Include="Assets\Scripts\top_screen.cs" />
     <Compile Include="Assets\Scripts\wappy_bird.cs" />
-    <Compile Include="Assets\coin_randomizer.cs" />
-    <Compile Include="Assets\top_screen.cs" />
+    <Compile Include="Assets\kamikaze.cs" />
     <Reference Include="UnityEngine.UI">
       <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
