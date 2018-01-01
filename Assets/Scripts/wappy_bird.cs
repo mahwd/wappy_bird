@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+// ReSharper disable All
 
 [RequireComponent (typeof(Rigidbody2D))]
 public class wappy_bird : MonoBehaviour
@@ -17,7 +19,7 @@ public class wappy_bird : MonoBehaviour
 	private Quaternion forwardRotation;
 	private Quaternion downRotation;
 
-	public delegate void PlayerDelegate();
+	public delegate void PlayerDelegate(float score);
 	// event will be fired when player died and scored 
 	public static event PlayerDelegate OnPlayerDied;
 	public static event PlayerDelegate OnPlayerScored;
@@ -75,18 +77,33 @@ public class wappy_bird : MonoBehaviour
 		if (col.gameObject.CompareTag("DeadZone")) {
 			rigidbody.simulated = false;
 			// register dead event
-			if (OnPlayerDied != null) OnPlayerDied();
+			if (OnPlayerDied != null) OnPlayerDied(0);
 			// play sound
 			die.Play();
 			
 		}
 		
 		GetComponent<CircleCollider2D>().isTrigger = !col.CompareTag("Top");
-		
-		if (!col.gameObject.CompareTag("ScoreZone")) return;
-		// register score event
-		if (OnPlayerScored != null) OnPlayerScored(); // event sent to GameManager
-		// play a sound
-		coin.Play();
+
+		if (col.tag.Contains("ScoreZone"))
+		{
+			// play a sound
+			coin.Play();
+			// check score_amount
+			var score = whichCoin(col.tag);
+			// register score event
+			if (OnPlayerScored != null) OnPlayerScored(score); // event sent to GameManager
+			
+		}
+	}
+
+	
+	public static float whichCoin(string tag)
+	{
+		var scoreText = "ScoreZone";
+		var scoreTextLength = scoreText.Length;
+		var index = tag.IndexOf(scoreText)+scoreTextLength;
+		var score = tag.Substring(index);
+		return Convert.ToSingle(score);
 	}
 }

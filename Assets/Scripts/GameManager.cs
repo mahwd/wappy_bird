@@ -28,7 +28,39 @@ public class GameManager:MonoBehaviour
 		countDownPage,
 	}
 
-	public int score = 0;
+	public class Azn
+	{
+		public float manat;
+		public float qepik;
+		
+		public static float zero { get {return 0;}}
+
+		public void CheckCoins()
+		{
+			if (qepik<=100) return;
+			manat += (int)qepik / 100;
+			qepik = qepik % 100;
+			Debug.Log("Checked");	
+		}
+		
+		public float getFullAmount()
+		{
+			return manat + qepik / 100f;
+		}
+
+		public string printMoney()
+		{
+			return manat + "manat" + qepik + "qəpik";
+		}
+		
+		public static Azn SetZero()
+		{
+			return new Azn(){manat = 0,qepik = 0};
+		}
+	}
+
+	public Azn score = new Azn(){manat = 0, qepik = 0};
+	
 	private bool gameOver = true;
 
 	public bool GameOver{ get { return gameOver; } }
@@ -56,25 +88,32 @@ public class GameManager:MonoBehaviour
 	private void onCountDownFinished () {
 		setPageState(pageState.inGamePage);
 		if (onGameStarted != null) onGameStarted ();
-		score = 0;
+		score = Azn.SetZero();
 		gameOver = false;
 	}
 
-	private void OnPlayerScored()
+	private void OnPlayerScored(float __score)
 	{
-		score++;
-		scoreText.text = score.ToString();
+		if (__score >= 1)
+		{
+			score.manat += (int)__score;
+		}
+		else
+		{
+			score.qepik += (int)(__score * 100);
+		}
+		score.CheckCoins();
+		scoreText.text = score.manat + " manat\n" + score.qepik + " qepik" ;
 	}
 
-	private void OnPlayerDied()
+	private void OnPlayerDied(float __score)
 	{
 		gameOver = true;
-		var highscore = PlayerPrefs.GetInt("HighScore");
-		Debug.Log(score);
-		Debug.Log(highscore);
-		if (score >= highscore)
+		var highscore = PlayerPrefs.GetFloat("HighScore");
+		if (score.getFullAmount() >= highscore)
 		{
-			PlayerPrefs.SetInt("HighScore", score);
+			PlayerPrefs.SetFloat("HighScore", score.getFullAmount());
+			PlayerPrefs.SetString("PrintHighScore", score.printMoney());
 		}
 		setPageState(pageState.gameOverPage);
 	}
@@ -135,7 +174,7 @@ public class GameManager:MonoBehaviour
 	{
 		// will be activated when replay button 
 		onGameOverConfirmed ();
-		scoreText.text = "0";
+		scoreText.text = Azn.zero.ToString();
 		setPageState (pageState.startPage);
 	}
 
